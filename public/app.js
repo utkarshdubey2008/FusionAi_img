@@ -1,12 +1,3 @@
-// Function to simulate loader and then display main content
-function showLoader() {
-    document.getElementById('loader').style.display = 'flex'; // Show loader
-    setTimeout(() => {
-        document.getElementById('loader').style.display = 'none'; // Hide loader after 2 seconds
-        document.querySelector('.container').style.display = 'flex'; // Show main content
-    }, 2000);
-}
-
 document.getElementById('generateBtn').addEventListener('click', async () => {
     const prompt = document.getElementById('prompt').value;
 
@@ -69,6 +60,3 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     // Scroll to the bottom of the chat area
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
-
-// Call the loader function on page load
-showLoader();
