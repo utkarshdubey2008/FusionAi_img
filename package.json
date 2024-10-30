@@ -1,0 +1,11 @@
+{
+    "name": "image-gen-app",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "vercel dev"
+    },
+    "dependencies": {
+        "axios": "^0.21.1",
+        "uuid": "^8.3.2"
+    }
+}
