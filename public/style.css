@@ -4,23 +4,24 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #121212; /* Dark mode background */
     margin: 0;
     height: 100vh; /* Full height */
     overflow: hidden; /* Prevent scrollbars */
+    color: white; /* Text color for dark mode */
 }
 
-.container {
+.loader-container {
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 0;
-    justify-content: space-between; /* Push input bar to the bottom */
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height for loader */
+    background-color: #121212; /* Same as body */
 }
 
 h1 {
     font-size: 24px;
-    color: #333;
+    color: #fff;
     text-align: center;
     margin: 20px 0;
 }
@@ -29,7 +30,7 @@ h1 {
     flex: 1; /* Take available space */
     overflow-y: auto; /* Enable vertical scrolling */
     padding: 20px;
-    background: white;
+    background: #1e1e1e; /* Darker background for messages */
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px; /* Space for the input bar */
@@ -46,14 +47,14 @@ h1 {
 
 .ai-message {
     text-align: left;
-    color: #333; /* AI message color */
+    color: #fff; /* AI message color */
 }
 
 .input-bar {
     display: flex;
     align-items: center;
     padding: 10px;
-    background: #fff; /* Background for input bar */
+    background: #1e1e1e; /* Darker background for input bar */
     border-top: 1px solid #ccc; /* Top border */
 }
 
@@ -65,6 +66,8 @@ textarea {
     border: 1px solid #ccc;
     resize: none; /* Prevent resizing */
     font-size: 16px;
+    background-color: #2a2a2a; /* Dark background for textarea */
+    color: white; /* White text for textarea */
 }
 
 button {
@@ -83,13 +86,12 @@ button:hover {
 }
 
 .loader {
-    border: 4px solid rgba(0, 0, 0, 0.1);
+    border: 4px solid rgba(255, 255, 255, 0.1);
     border-left-color: #007bff;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite;
-    margin: 10px auto; /* Center loader */
 }
 
 @keyframes spin {
@@ -97,11 +99,17 @@ button:hover {
     100% { transform: rotate(360deg); }
 }
 
-.image-hidden {
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.5s ease; /* Smooth fade in */
+.image-container {
+    width: 100%; /* Full width */
+    max-width: 600px; /* Set a max width */
+    margin: 10px auto; /* Center the image box */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Clip the image */
+    background-color: #2a2a2a; /* Dark background for image container */
+    padding: 10px; /* Padding around the image */
 }
 
-.image-visible {
-    opacity: 1; /* Visible after fade in */
+.image-container img {
+    width: 100%; /* Make image responsive */
+    height: auto; /* Maintain aspect ratio */
 }
