@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <h1>Fusion AI Image Generator</h1>
-        <textarea id="prompt" placeholder="Describe the image you want..." required></textarea>
-        <button id="generateBtn">Generate Image</button>
-        <div id="result" class="result-container">
-            <!-- This is where the generated image will appear -->
+        <div id="chat-area">
+            <div id="messages"></div>
         </div>
+        <textarea id="prompt" placeholder="Type your prompt here..."></textarea>
+        <button id="generateBtn">Send your prompt</button>
     </div>
     <script src="app.js"></script>
 </body>
