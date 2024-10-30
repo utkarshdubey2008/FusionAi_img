@@ -1,3 +1,12 @@
+// Function to simulate loader and then display main content
+function showLoader() {
+    document.getElementById('loader').style.display = 'flex'; // Show loader
+    setTimeout(() => {
+        document.getElementById('loader').style.display = 'none'; // Hide loader after 2 seconds
+        document.querySelector('.container').style.display = 'flex'; // Show main content
+    }, 2000);
+}
+
 document.getElementById('generateBtn').addEventListener('click', async () => {
     const prompt = document.getElementById('prompt').value;
 
@@ -42,15 +51,12 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
         // Display the AI's response
         const aiMessage = document.createElement('div');
         aiMessage.classList.add('message', 'ai-message');
-        aiMessage.innerHTML = `<img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" />`;
+        aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" /></div>`;
         messagesDiv.appendChild(aiMessage);
 
         // Fade in the image
         const img = aiMessage.querySelector('img');
         img.onload = () => img.classList.add('image-visible');
-
-        // Show regenerate button
-        document.getElementById('regenerateBtn').style.display = 'block';
 
     } else {
         // Handle error response
@@ -64,55 +70,5 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
-// Regenerate image on button click
-document.getElementById('regenerateBtn').addEventListener('click', async () => {
-    const lastMessage = document.querySelector('.user-message:last-child');
-    const prompt = lastMessage.textContent;
-
-    // Show loader while regenerating the image
-    const messagesDiv = document.getElementById('messages');
-    const loader = document.createElement('div');
-    loader.classList.add('loader');
-    messagesDiv.appendChild(loader);
-
-    // Clear any existing regenerate button display
-    document.getElementById('regenerateBtn').style.display = 'none';
-
-    const response = await fetch('/api/generate-image', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-    });
-
-    // Remove loader
-    loader.remove();
-
-    if (response.ok) {
-        const data = await response.json();
-
-        // Display the AI's response
-        const aiMessage = document.createElement('div');
-        aiMessage.classList.add('message', 'ai-message');
-        aiMessage.innerHTML = `<img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" />`;
-        messagesDiv.appendChild(aiMessage);
-
-        // Fade in the image
-        const img = aiMessage.querySelector('img');
-        img.onload = () => img.classList.add('image-visible');
-
-        // Show regenerate button
-        document.getElementById('regenerateBtn').style.display = 'block';
-
-    } else {
-        // Handle error response
-        const errorMessage = document.createElement('div');
-        errorMessage.classList.add('message', 'ai-message');
-        errorMessage.textContent = 'Failed to regenerate image';
-        messagesDiv.appendChild(errorMessage);
-    }
-
-    // Scroll to the bottom of the chat area
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
+// Call the loader function on page load
+showLoader();
