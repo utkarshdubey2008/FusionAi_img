@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <div class="container" style="display: none;">
         <h1>Fusion AI Image Generator</h1>
         <div id="messages" class="messages"></div>
         <div class="input-bar">
             <textarea id="prompt" placeholder="Type your prompt here..." rows="1"></textarea>
             <button id="generateBtn">Send</button>
         </div>
-        <button id="regenerateBtn" style="display: none;">Regenerate</button>
     </div>
     <script src="app.js"></script>
 </body>
