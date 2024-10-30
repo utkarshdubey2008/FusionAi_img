@@ -1,30 +1,32 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    height: 100vh; /* Full height for body */
 }
 
 .container {
     background: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     width: 400px; /* Width for a more spacious layout */
-    text-align: center;
+    height: 90vh; /* Height for chat area */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    position: relative; /* Position relative for absolute child elements */
+    margin: auto;
 }
 
 h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
+    text-align: center; /* Center align heading */
 }
 
 #chat-area {
-    height: 300px; /* Fixed height for chat area */
+    flex: 1; /* Allow chat area to grow */
     overflow-y: auto; /* Scroll when overflow */
     border: 1px solid #ccc; /* Border for the chat area */
     border-radius: 8px; /* Rounded corners for the chat area */
@@ -36,7 +38,7 @@ h1 {
 textarea {
     width: 100%;
     height: 100px;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Reduced margin for better spacing */
     padding: 12px;
     border-radius: 8px; /* Rounded corners for a modern look */
     border: 1px solid #ccc;
@@ -53,6 +55,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 5px; /* Space between buttons */
     transition: background-color 0.3s ease; /* Smooth transition */
 }
 
