@@ -11,14 +11,6 @@ body {
     color: white; /* Text color for dark mode */
 }
 
-.loader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full height for loader */
-    background-color: #121212; /* Same as body */
-}
-
 h1 {
     font-size: 24px;
     color: #fff;
@@ -85,23 +77,9 @@ button:hover {
     background-color: #0056b3; /* Darker shade on hover */
 }
 
-.loader {
-    border: 4px solid rgba(255, 255, 255, 0.1);
-    border-left-color: #007bff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 .image-container {
     width: 100%; /* Full width */
-    max-width: 600px; /* Set a max width */
+    max-width: 400px; /* Set a max width to reduce image size */
     margin: 10px auto; /* Center the image box */
     border-radius: 10px; /* Rounded corners */
     overflow: hidden; /* Clip the image */
