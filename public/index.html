@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <h1>Fusion AI Image Generator</h1>
-        <div id="chat-area">
-            <div id="messages"></div>
+        <div id="messages" class="messages"></div>
+        <div class="input-bar">
+            <textarea id="prompt" placeholder="Type your prompt here..." rows="1"></textarea>
+            <button id="generateBtn">Send</button>
         </div>
-        <textarea id="prompt" placeholder="Type your prompt here..."></textarea>
-        <button id="generateBtn">Send your prompt</button>
         <button id="regenerateBtn" style="display: none;">Regenerate</button>
     </div>
     <script src="app.js"></script>
