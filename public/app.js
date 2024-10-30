@@ -16,7 +16,11 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     // Show loader while generating the image
     const loader = document.createElement('div');
     loader.classList.add('loader');
-    messagesDiv.appendChild(loader);
+    loader.innerHTML = 'Loading...'; // Optional text for the loader
+    const aiMessage = document.createElement('div');
+    aiMessage.classList.add('message', 'ai-message');
+    aiMessage.appendChild(loader); // Add loader to AI message
+    messagesDiv.appendChild(aiMessage);
 
     // Clear prompt area
     document.getElementById('prompt').value = '';
@@ -33,24 +37,30 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
         body: JSON.stringify({ prompt }),
     });
 
-    // Remove loader
-    loader.remove();
-
     if (response.ok) {
         const data = await response.json();
 
-        // Display the AI's response
-        const aiMessage = document.createElement('div');
-        aiMessage.classList.add('message', 'ai-message');
-        aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" /></div>`;
+        // Remove the loader and display the AI's response
+        loader.remove();
+        const imgContainer = document.createElement('div');
+        imgContainer.classList.add('image-container');
+        const img = document.createElement('img');
+        img.src = data.photoUrl;
+        img.alt = "Generated Image";
+        
+        // Append the image to the container
+        imgContainer.appendChild(img);
+        aiMessage.appendChild(imgContainer);
         messagesDiv.appendChild(aiMessage);
 
-        // Fade in the image
-        const img = aiMessage.querySelector('img');
-        img.onload = () => img.classList.add('image-visible');
+        // Fade in the image once it loads
+        img.onload = () => {
+            img.classList.add('image-visible');
+        };
 
     } else {
-        // Handle error response
+        // Remove loader and show error message
+        loader.remove();
         const errorMessage = document.createElement('div');
         errorMessage.classList.add('message', 'ai-message');
         errorMessage.textContent = 'Failed to generate image';
