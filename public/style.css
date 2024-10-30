@@ -9,6 +9,8 @@ body {
     height: 100vh; /* Full height */
     overflow: hidden; /* Prevent scrollbars */
     color: white; /* Text color for dark mode */
+    display: flex;
+    flex-direction: column; /* Allow vertical stacking of elements */
 }
 
 h1 {
