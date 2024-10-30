@@ -1,100 +1,95 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    height: 100vh; /* Full height for body */
+    height: 100vh; /* Full height */
+    overflow: hidden; /* Prevent scrollbars */
 }
 
 .container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Width for a more spacious layout */
-    height: 90vh; /* Height for chat area */
     display: flex;
-    flex-direction: column; /* Align items vertically */
-    position: relative; /* Position relative for absolute child elements */
-    margin: auto;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    justify-content: space-between; /* Push input bar to the bottom */
 }
 
 h1 {
     font-size: 24px;
     color: #333;
-    margin-bottom: 20px;
-    text-align: center; /* Center align heading */
+    text-align: center;
+    margin: 20px 0;
 }
 
-#chat-area {
-    flex: 1; /* Allow chat area to grow */
-    overflow-y: auto; /* Scroll when overflow */
-    border: 1px solid #ccc; /* Border for the chat area */
-    border-radius: 8px; /* Rounded corners for the chat area */
+.messages {
+    flex: 1; /* Take available space */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px; /* Space for the input bar */
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.user-message {
+    text-align: right;
+    color: #007bff; /* User message color */
+}
+
+.ai-message {
+    text-align: left;
+    color: #333; /* AI message color */
+}
+
+.input-bar {
+    display: flex;
+    align-items: center;
     padding: 10px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9; /* Light background for messages */
+    background: #fff; /* Background for input bar */
+    border-top: 1px solid #ccc; /* Top border */
 }
 
 textarea {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 10px; /* Reduced margin for better spacing */
-    padding: 12px;
-    border-radius: 8px; /* Rounded corners for a modern look */
+    flex: 1; /* Take available space */
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px; /* Rounded corners */
     border: 1px solid #ccc;
-    resize: none; /* Prevents resizing of the textarea */
+    resize: none; /* Prevent resizing */
     font-size: 16px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
-    padding: 12px 20px;
-    background-color: #007bff; /* Bootstrap primary color */
+    padding: 10px 15px;
+    background-color: #007bff; /* Button color */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 5px; /* Space between buttons */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker shade for hover effect */
-}
-
-.message {
-    margin-bottom: 15px; /* Space between messages */
-    display: flex;
-    align-items: center;
-}
-
-.user-message {
-    align-self: flex-end; /* Align user's message to the right */
-    background-color: #d1e7dd; /* Light green background for user messages */
-    padding: 10px;
-    border-radius: 8px;
-    max-width: 80%; /* Limit message width */
-    word-wrap: break-word; /* Allow word wrapping */
-}
-
-.ai-message {
-    align-self: flex-start; /* Align AI's message to the left */
-    background-color: #f8d7da; /* Light red background for AI messages */
-    padding: 10px;
-    border-radius: 8px;
-    max-width: 80%; /* Limit message width */
-    word-wrap: break-word; /* Allow word wrapping */
+    background-color: #0056b3; /* Darker shade on hover */
 }
 
 .loader {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue */
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
     border-radius: 50%;
-    width: 30px; /* Adjusted loader size */
-    height: 30px; /* Adjusted loader size */
+    width: 20px;
+    height: 20px;
     animation: spin 1s linear infinite;
-    margin-left: 10px; /* Space between loader and message */
+    margin: 10px auto; /* Center loader */
 }
 
 @keyframes spin {
@@ -102,16 +97,11 @@ button:hover {
     100% { transform: rotate(360deg); }
 }
 
-img {
-    max-width: 100%;
-    border-radius: 8px; /* Rounded corners for images */
-}
-
 .image-hidden {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.5s ease; /* Smooth fade in */
 }
 
 .image-visible {
-    opacity: 1;
+    opacity: 1; /* Visible after fade in */
 }
