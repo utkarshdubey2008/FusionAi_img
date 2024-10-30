@@ -75,6 +75,9 @@ document.getElementById('regenerateBtn').addEventListener('click', async () => {
     loader.classList.add('loader');
     messagesDiv.appendChild(loader);
 
+    // Clear any existing regenerate button display
+    document.getElementById('regenerateBtn').style.display = 'none';
+
     const response = await fetch('/api/generate-image', {
         method: 'POST',
         headers: {
@@ -98,6 +101,9 @@ document.getElementById('regenerateBtn').addEventListener('click', async () => {
         // Fade in the image
         const img = aiMessage.querySelector('img');
         img.onload = () => img.classList.add('image-visible');
+
+        // Show regenerate button
+        document.getElementById('regenerateBtn').style.display = 'block';
 
     } else {
         // Handle error response
