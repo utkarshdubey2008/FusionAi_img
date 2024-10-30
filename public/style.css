@@ -13,7 +13,7 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Increased width for a more spacious layout */
+    width: 400px; /* Width for a more spacious layout */
     text-align: center;
 }
 
@@ -21,6 +21,16 @@ h1 {
     font-size: 24px;
     color: #333;
     margin-bottom: 20px;
+}
+
+#chat-area {
+    height: 300px; /* Fixed height for chat area */
+    overflow-y: auto; /* Scroll when overflow */
+    border: 1px solid #ccc; /* Border for the chat area */
+    border-radius: 8px; /* Rounded corners for the chat area */
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9; /* Light background for messages */
 }
 
 textarea {
@@ -50,48 +60,48 @@ button:hover {
     background-color: #0056b3; /* Darker shade for hover effect */
 }
 
-#result {
-    margin-top: 20px;
-    text-align: center;
+.message {
+    margin-bottom: 15px; /* Space between messages */
+    display: flex;
+    align-items: center;
 }
 
-.result-container {
-    margin-top: 20px;
+.user-message {
+    align-self: flex-end; /* Align user's message to the right */
+    background-color: #d1e7dd; /* Light green background for user messages */
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%; /* Limit message width */
+    word-wrap: break-word; /* Allow word wrapping */
 }
 
-img {
-    max-width: 100%;
-    border-radius: 8px; /* Rounded corners for images */
-}
-
-.regenerate-btn {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #ffc107; /* Bootstrap warning color */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.regenerate-btn:hover {
-    background-color: #e0a800; /* Darker shade for regenerate button */
+.ai-message {
+    align-self: flex-start; /* Align AI's message to the left */
+    background-color: #f8d7da; /* Light red background for AI messages */
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%; /* Limit message width */
+    word-wrap: break-word; /* Allow word wrapping */
 }
 
 .loader {
     border: 5px solid #f3f3f3; /* Light grey */
     border-top: 5px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 30px; /* Adjusted loader size */
+    height: 30px; /* Adjusted loader size */
     animation: spin 1s linear infinite;
-    margin: auto;
+    margin-left: 10px; /* Space between loader and message */
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+img {
+    max-width: 100%;
+    border-radius: 8px; /* Rounded corners for images */
 }
 
 .image-hidden {
