@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
@@ -10,33 +10,71 @@ body {
 
 .container {
     background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Increased width for a more spacious layout */
     text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 textarea {
     width: 100%;
     height: 100px;
-    margin-bottom: 10px;
-    padding: 10px;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px; /* Rounded corners for a modern look */
+    border: 1px solid #ccc;
+    resize: none; /* Prevents resizing of the textarea */
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #28a745;
+    padding: 12px 20px;
+    background-color: #007bff; /* Bootstrap primary color */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0056b3; /* Darker shade for hover effect */
 }
 
 #result {
     margin-top: 20px;
+    text-align: center;
+}
+
+.result-container {
+    margin-top: 20px;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 8px; /* Rounded corners for images */
+}
+
+.regenerate-btn {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #ffc107; /* Bootstrap warning color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.regenerate-btn:hover {
+    background-color: #e0a800; /* Darker shade for regenerate button */
 }
