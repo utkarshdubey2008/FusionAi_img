@@ -1,64 +1,71 @@
-const chatDisplay = document.getElementById("chat-display");
-const typingIndicator = document.getElementById("typing-indicator");
-const userInput = document.getElementById("user-input");
+document.getElementById('generateBtn').addEventListener('click', async () => {
+    const prompt = document.getElementById('prompt').value;
 
-function sendMessage() {
-  const messageText = userInput.value;
-  if (!messageText) return;
-  addMessage(messageText, "user");
+    if (!prompt) {
+        alert('Please enter a prompt.');
+        return; // Don't proceed if the prompt is empty
+    }
 
-  userInput.value = "";
+    // Display the user's message
+    const messagesDiv = document.getElementById('messages');
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('message', 'user-message');
+    userMessage.textContent = prompt;
+    messagesDiv.appendChild(userMessage);
 
-  showTypingIndicator();
+    // Show loader while generating the image
+    const loader = document.createElement('div');
+    loader.classList.add('loader');
+    messagesDiv.appendChild(loader);
 
-  setTimeout(() => {
-    generateAIResponse(messageText);
-    hideTypingIndicator();
-  }, 1000); // Delay for AI response
-}
+    // Clear prompt area
+    document.getElementById('prompt').value = '';
 
-function addMessage(text, sender) {
-  const messageElement = document.createElement("div");
-  messageElement.classList.add("message", sender === "user" ? "user-message" : "ai-message");
+    // Scroll to the bottom of the chat area
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-  if (sender === "ai") {
-    const avatar = document.createElement("img");
-    avatar.src = "ai_avatar.png"; // Add a suitable AI avatar image in your project folder
-    avatar.classList.add("message-avatar");
-    messageElement.appendChild(avatar);
-  }
+    // Call your backend API
+    try {
+        const response = await fetch('/api/generate-image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt }),
+        });
 
-  const messageText = document.createElement("span");
-  messageText.innerText = text;
-  messageElement.appendChild(messageText);
+        // Remove loader
+        loader.remove();
 
-  chatDisplay.appendChild(messageElement);
-  chatDisplay.scrollTop = chatDisplay.scrollHeight;
-}
+        if (response.ok) {
+            const data = await response.json();
 
-function generateAIResponse(userMessage) {
-  const aiResponse = "Generating image for: " + userMessage; // Replace with your AI logic
-  addMessage(aiResponse, "ai");
+            // Display the AI's response
+            const aiMessage = document.createElement('div');
+            aiMessage.classList.add('message', 'ai-message');
+            aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" /></div>`;
+            messagesDiv.appendChild(aiMessage);
 
-  setTimeout(() => {
-    const imgElement = document.createElement("img");
-    imgElement.src = "https://via.placeholder.com/150"; // Placeholder for generated image
-    imgElement.alt = userMessage;
-    imgElement.classList.add("generated-image");
+            // Fade in the image
+            const img = aiMessage.querySelector('img');
+            img.onload = () => img.classList.add('image-visible');
+        } else {
+            // Handle error response
+            const errorMessage = document.createElement('div');
+            errorMessage.classList.add('message', 'ai-message');
+            errorMessage.textContent = 'Failed to generate image';
+            messagesDiv.appendChild(errorMessage);
+        }
 
-    const imageMessage = document.createElement("div");
-    imageMessage.classList.add("message", "ai-message");
-    imageMessage.appendChild(imgElement);
+    } catch (error) {
+        console.error("Error generating image:", error);
+        loader.remove();
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('message', 'ai-message');
+        errorMessage.textContent = 'Error generating image';
+        messagesDiv.appendChild(errorMessage);
+    }
 
-    chatDisplay.appendChild(imageMessage);
-    chatDisplay.scrollTop = chatDisplay.scrollHeight;
-  }, 2000); // Delay for image generation
-}
-
-function showTypingIndicator() {
-  typingIndicator.style.display = "flex";
-}
-
-function hideTypingIndicator() {
-  typingIndicator.style.display = "none";
-}
+    // Scroll to the bottom of the chat area
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
