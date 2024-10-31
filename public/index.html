@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fusion AI Image Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Fusion Chat</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Fusion AI Image Generator</h1>
-        <div id="messages" class="messages"></div>
-        <div class="input-bar">
-            <textarea id="prompt" placeholder="Type your prompt here..." rows="1"></textarea>
-            <button id="generateBtn">Send</button>
+    <div class="app-container">
+        <div class="chat-container">
+            <div id="chatbox" class="chatbox">
+                <!-- Messages will appear here -->
+            </div>
+        </div>
+        <div class="input-container">
+            <div class="input-bar">
+                <input type="text" id="userInput" placeholder="Ask Fusion" />
+                <button onclick="sendPrompt()">Send</button>
+            </div>
         </div>
     </div>
-    <script src="app.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
