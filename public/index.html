@@ -3,29 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot Interface</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Chat Interface</title>
+    <style>
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user-message {
+            text-align: right;
+            color: blue;
+        }
+        .ai-message {
+            text-align: left;
+            color: green;
+        }
+        .loader {
+            margin: 5px 0;
+            animation: blink 1s infinite;
+            color: orange;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .image-container {
+            max-width: 100%;
+        }
+        .image-hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .image-visible {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="header">
-            <span class="menu-icon">☰</span>
-            <span id="chat-title">ChatGPT</span>
-        </div>
+    <div id="messages"></div>
+    <input type="text" id="prompt" placeholder="Enter your prompt here" />
+    <button id="generateBtn">Send</button>
 
-        <div id="messages">
-            <!-- Messages will appear here -->
-        </div>
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const prompt = document.getElementById('prompt').value;
 
-        <div id="typingIndicator" class="typing-indicator" style="display: none;">
-            AI is typing...
-        </div>
+            if (!prompt) {
+                alert('Please enter a prompt.');
+                return; // Don't proceed if the prompt is empty
+            }
 
-        <div id="input-bar">
-            <input type="text" id="userInput" placeholder="Message">
-            <button onclick="sendMessage()">Send</button>
-        </div>
-    </div>
-    <script src="script.js"></script>
+            // Display the user's message
+            const messagesDiv = document.getElementById('messages');
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.textContent = prompt;
+            messagesDiv.appendChild(userMessage);
+
+            // Show loader while generating the image
+            const loader = document.createElement('div');
+            loader.classList.add('loader');
+            messagesDiv.appendChild(loader);
+
+            // Clear prompt area
+            document.getElementById('prompt').value = '';
+
+            // Scroll to the bottom of the chat area
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Call your backend API
+            try {
+                const response = await fetch('/api/generate-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt }),
+                });
+
+                // Remove loader
+                loader.remove();
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Display the AI's response
+                    const aiMessage = document.createElement('div');
+                    aiMessage.classList.add('message', 'ai-message');
+                    aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" /></div>`;
+                    messagesDiv.appendChild(aiMessage);
+
+                    // Fade in the image
+                    const img = aiMessage.querySelector('img');
+                    img.onload = () => img.classList.add('image-visible');
+                } else {
+                    // Handle error response
+                    const errorMessage = document.createElement('div');
+                    errorMessage.classList.add('message', 'ai-message');
+                    errorMessage.textContent = 'Failed to generate image';
+                    messagesDiv.appendChild(errorMessage);
+                }
+
+            } catch (error) {
+                console.error("Error generating image:", error);
+                loader.remove();
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('message', 'ai-message');
+                errorMessage.textContent = 'Error generating image';
+                messagesDiv.appendChild(errorMessage);
+            }
+
+            // Scroll to the bottom of the chat area
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
 </body>
 </html>
