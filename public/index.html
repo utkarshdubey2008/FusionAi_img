@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fusion Chat</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AI Chatbot Interface</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <div class="chat-container">
-            <div id="chatbox" class="chatbox">
-                <!-- Messages will appear here -->
-            </div>
+    <div id="chat-container">
+        <div id="header">
+            <span class="menu-icon">☰</span>
+            <span id="chat-title">ChatGPT</span>
         </div>
-        <div class="input-container">
-            <div class="input-bar">
-                <input type="text" id="userInput" placeholder="Ask Fusion" />
-                <button onclick="sendPrompt()">Send</button>
-            </div>
+
+        <div id="messages">
+            <!-- Messages will appear here -->
+        </div>
+
+        <div id="typingIndicator" class="typing-indicator" style="display: none;">
+            AI is typing...
+        </div>
+
+        <div id="input-bar">
+            <input type="text" id="userInput" placeholder="Message">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
