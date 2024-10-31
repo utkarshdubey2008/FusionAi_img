@@ -1,72 +1,38 @@
-document.getElementById('generateBtn').addEventListener('click', async () => {
-    const prompt = document.getElementById('prompt').value;
+function sendPrompt() {
+    const inputField = document.getElementById("userInput");
+    const message = inputField.value.trim();
+    if (message) {
+        addMessageToChat("user", message);
+        inputField.value = "";
 
-    if (!prompt) {
-        alert('Please enter a prompt.');
-        return; // Don't proceed if the prompt is empty
+        // Simulate Fusion's response with loader
+        addLoader();
+        setTimeout(() => {
+            removeLoader();
+            addMessageToChat("fusion", "Here's the response from Fusion with the generated image.");
+        }, 2000); // 2 seconds delay to simulate processing
     }
+}
 
-    // Display the user's message
-    const messagesDiv = document.getElementById('messages');
-    const userMessage = document.createElement('div');
-    userMessage.classList.add('message', 'user-message');
-    userMessage.textContent = prompt;
-    messagesDiv.appendChild(userMessage);
+function addMessageToChat(sender, text) {
+    const chatbox = document.getElementById("chatbox");
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", sender);
+    messageElement.textContent = text;
+    chatbox.appendChild(messageElement);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
 
-    // Show loader while generating the image
-    const loader = document.createElement('div');
-    loader.classList.add('loader');
-    loader.innerHTML = 'Loading...'; // Optional text for the loader
-    const aiMessage = document.createElement('div');
-    aiMessage.classList.add('message', 'ai-message');
-    aiMessage.appendChild(loader); // Add loader to AI message
-    messagesDiv.appendChild(aiMessage);
+function addLoader() {
+    const chatbox = document.getElementById("chatbox");
+    const loader = document.createElement("div");
+    loader.classList.add("message", "fusion", "loader");
+    loader.innerHTML = "<div class='loading-spinner'></div>";
+    chatbox.appendChild(loader);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
 
-    // Clear prompt area
-    document.getElementById('prompt').value = '';
-
-    // Scroll to the bottom of the chat area
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    // Call your backend API
-    const response = await fetch('/api/generate-image', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-    });
-
-    if (response.ok) {
-        const data = await response.json();
-
-        // Remove the loader and display the AI's response
-        loader.remove();
-        const imgContainer = document.createElement('div');
-        imgContainer.classList.add('image-container');
-        const img = document.createElement('img');
-        img.src = data.photoUrl;
-        img.alt = "Generated Image";
-        
-        // Append the image to the container
-        imgContainer.appendChild(img);
-        aiMessage.appendChild(imgContainer);
-        messagesDiv.appendChild(aiMessage);
-
-        // Fade in the image once it loads
-        img.onload = () => {
-            img.classList.add('image-visible');
-        };
-
-    } else {
-        // Remove loader and show error message
-        loader.remove();
-        const errorMessage = document.createElement('div');
-        errorMessage.classList.add('message', 'ai-message');
-        errorMessage.textContent = 'Failed to generate image';
-        messagesDiv.appendChild(errorMessage);
-    }
-
-    // Scroll to the bottom of the chat area
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
+function removeLoader() {
+    const loader = document.querySelector(".loader");
+    if (loader) loader.remove();
+}
