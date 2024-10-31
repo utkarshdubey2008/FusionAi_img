@@ -16,7 +16,11 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     // Show loader while generating the image
     const loader = document.createElement('div');
     loader.classList.add('loader');
-    messagesDiv.appendChild(loader);
+    loader.innerHTML = 'Loading...'; // Optional text for the loader
+    const aiMessage = document.createElement('div');
+    aiMessage.classList.add('message', 'ai-message');
+    aiMessage.appendChild(loader); // Add loader to AI message
+    messagesDiv.appendChild(aiMessage);
 
     // Clear prompt area
     document.getElementById('prompt').value = '';
@@ -25,66 +29,41 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
     // Call your backend API
-    try {
-        const response = await fetch('/api/generate-image', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ prompt }),
-        });
+    const response = await fetch('/api/generate-image', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+    });
 
-        // Remove loader
+    if (response.ok) {
+        const data = await response.json();
+
+        // Remove the loader and display the AI's response
         loader.remove();
+        const imgContainer = document.createElement('div');
+        imgContainer.classList.add('image-container');
+        const img = document.createElement('img');
+        img.src = data.photoUrl;
+        img.alt = "Generated Image";
+        
+        // Append the image to the container
+        imgContainer.appendChild(img);
+        aiMessage.appendChild(imgContainer);
+        messagesDiv.appendChild(aiMessage);
 
-        if (response.ok) {
-            const data = await response.json();
+        // Fade in the image once it loads
+        img.onload = () => {
+            img.classList.add('image-visible');
+        };
 
-            // Check if there's an array of images
-            if (Array.isArray(data.photoUrls)) {
-                data.photoUrls.forEach(photoUrl => {
-                    // Display the AI's response for each image
-                    const aiMessage = document.createElement('div');
-                    aiMessage.classList.add('message', 'ai-message');
-                    aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${photoUrl}" alt="Generated Image" /></div>`;
-                    messagesDiv.appendChild(aiMessage);
-
-                    // Fade in the image
-                    const img = aiMessage.querySelector('img');
-                    img.onload = () => img.classList.add('image-visible');
-
-                    // Auto-scroll to the bottom after adding each image
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                });
-            } else {
-                // Handle single image case
-                const aiMessage = document.createElement('div');
-                aiMessage.classList.add('message', 'ai-message');
-                aiMessage.innerHTML = `<div class="image-container"><img class="image-hidden" src="${data.photoUrl}" alt="Generated Image" /></div>`;
-                messagesDiv.appendChild(aiMessage);
-
-                // Fade in the image
-                const img = aiMessage.querySelector('img');
-                img.onload = () => img.classList.add('image-visible');
-
-                // Auto-scroll to the bottom
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
-
-        } else {
-            // Handle error response
-            const errorMessage = document.createElement('div');
-            errorMessage.classList.add('message', 'ai-message');
-            errorMessage.textContent = 'Failed to generate image';
-            messagesDiv.appendChild(errorMessage);
-        }
-
-    } catch (error) {
-        console.error("Error generating image:", error);
+    } else {
+        // Remove loader and show error message
         loader.remove();
         const errorMessage = document.createElement('div');
         errorMessage.classList.add('message', 'ai-message');
-        errorMessage.textContent = 'Error generating image';
+        errorMessage.textContent = 'Failed to generate image';
         messagesDiv.appendChild(errorMessage);
     }
 
