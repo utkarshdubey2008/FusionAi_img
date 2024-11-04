@@ -23,28 +23,25 @@ module.exports = async (req, res) => {
 
         const api_url = "https://www.blackbox.ai/api/chat";
 
-        // CORS headers
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
         try {
             const response = await axios.post(api_url, payload, { headers });
             
-            // Log response data to see the format
-            console.log(response.data);
+            // Log the full response data for debugging
+            console.log("API Response:", response.data);
 
-            // Extract image URL from the response
+            // Attempt to extract image URL from response
             const link = response.data.match(/(https:\/\/storage\.googleapis\.com\/[^\)]+)/);
             const photoUrl = link ? link[0] : null;
 
             if (!photoUrl) {
+                // Log the failure reason and return an error
+                console.error("Failed to find image URL in response:", response.data);
                 return res.status(500).json({ error: 'Image URL not found in response' });
             }
 
             res.status(200).json({ photoUrl });
         } catch (error) {
-            console.error(error);
+            console.error("Error:", error.message || error);
             res.status(500).json({ error: 'Failed to generate image' });
         }
     } else {
