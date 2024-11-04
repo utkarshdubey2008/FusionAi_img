@@ -1,4 +1,3 @@
-
 const axios = require('axios');
 const { v4: uuidv4 } = require('uuid');
 
@@ -24,10 +23,25 @@ module.exports = async (req, res) => {
 
         const api_url = "https://www.blackbox.ai/api/chat";
 
+        // CORS headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'POST');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
         try {
             const response = await axios.post(api_url, payload, { headers });
+            
+            // Log response data to see the format
+            console.log(response.data);
+
+            // Extract image URL from the response
             const link = response.data.match(/(https:\/\/storage\.googleapis\.com\/[^\)]+)/);
             const photoUrl = link ? link[0] : null;
+
+            if (!photoUrl) {
+                return res.status(500).json({ error: 'Image URL not found in response' });
+            }
+
             res.status(200).json({ photoUrl });
         } catch (error) {
             console.error(error);
